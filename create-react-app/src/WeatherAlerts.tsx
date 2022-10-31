@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   getActiveAlerts,
   isAlertCollectionGeoJson,
@@ -11,28 +12,29 @@ interface Alert {
 
 export const WeatherAlerts: FC = () => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
+  const { data: position } = useQuery(["currentPosition"], () =>
+    getCurrentPosition({ timeout: 5000 })
+  );
+  const { data: alertCollection } = useQuery(
+    ["activeAlerts"],
+    () =>
+      getActiveAlerts({
+        point: `${position!.coords.latitude.toFixed(
+          4
+        )},${position!.coords.longitude.toFixed(4)}`,
+      }),
+    { enabled: !!position }
+  );
 
   useEffect(() => {
-    const updateAlerts = async () => {
-      const position = await getCurrentPosition({ timeout: 5000 });
-
-      const alertCollection = await getActiveAlerts({
-        point: `${position.coords.latitude.toFixed(
-          4
-        )},${position.coords.longitude.toFixed(4)}`,
-      });
-
-      if (isAlertCollectionGeoJson(alertCollection)) {
-        setAlerts(
-          alertCollection.features.map((feature) => ({
-            description: feature.properties.description,
-          }))
-        );
-      }
-    };
-
-    updateAlerts();
-  }, []);
+    if (isAlertCollectionGeoJson(alertCollection)) {
+      setAlerts(
+        alertCollection.features.map((feature) => ({
+          description: feature.properties.description,
+        }))
+      );
+    }
+  }, [alertCollection]);
 
   return (
     <section>

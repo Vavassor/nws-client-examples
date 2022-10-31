@@ -1,11 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import {
+  getGridpointForecastHourly,
   getQuantitativeValue,
   isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
 import { FC, Fragment, useEffect, useState } from "react";
 import { groupBy } from "./ArrayUtilities";
-import { getCurrentPosition } from "./getCurrentPosition";
-import { nwsClient } from "./nws";
 import { usePoint } from "./usePoint";
 
 interface Day {
@@ -22,61 +22,58 @@ interface Period {
 
 export const HourlyWeather: FC = () => {
   const [days, setDays] = useState<Day[]>([]);
-  const { city, state } = usePoint();
+  const { city, point, state } = usePoint();
+  const { data: forecast } = useQuery(
+    ["gridpointForecastHourly", point],
+    () =>
+      getGridpointForecastHourly({
+        forecastOfficeId: point!.gridId,
+        gridX: point!.gridX,
+        gridY: point!.gridY,
+      }),
+    { enabled: !!point }
+  );
 
   useEffect(() => {
-    const updateForecast = async () => {
-      const position = await getCurrentPosition({
-        timeout: 5000,
+    if (isGridpointForecastGeoJson(forecast)) {
+      const dayFormat = new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
       });
 
-      const forecast = await nwsClient.getGridpointForecastHourly({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
+      const allPeriods = forecast.properties.periods.map((period) => {
+        const temperatureValue = getQuantitativeValue(
+          period.temperature,
+          "[degF]"
+        ).value;
+        const temperature = temperatureValue
+          ? temperatureValue.toString()
+          : "--";
+        const windSpeedValue = getQuantitativeValue(
+          period.windSpeed,
+          "[mi_i]/h"
+        ).value;
+        const wind = windSpeedValue ? windSpeedValue.toString() : "--";
+        const hourPeriod: Period = {
+          condition: period.shortForecast,
+          startTime: period.startTime,
+          temperature,
+          wind,
+        };
+        return hourPeriod;
       });
 
-      if (isGridpointForecastGeoJson(forecast)) {
-        const dayFormat = new Intl.DateTimeFormat("en-US", {
-          weekday: "long",
-        });
-
-        const allPeriods = forecast.properties.periods.map((period) => {
-          const temperatureValue = getQuantitativeValue(
-            period.temperature,
-            "[degF]"
-          ).value;
-          const temperature = temperatureValue
-            ? temperatureValue.toString()
-            : "--";
-          const windSpeedValue = getQuantitativeValue(
-            period.windSpeed,
-            "[mi_i]/h"
-          ).value;
-          const wind = windSpeedValue ? windSpeedValue.toString() : "--";
-          const hourPeriod: Period = {
-            condition: period.shortForecast,
-            startTime: period.startTime,
-            temperature,
-            wind,
-          };
-          return hourPeriod;
-        });
-
-        setDays(
-          Object.entries(
-            groupBy(allPeriods, (period) =>
-              dayFormat.format(new Date(period.startTime))
-            )
-          ).map(([key, value]) => ({
-            name: key,
-            periods: value,
-          }))
-        );
-      }
-    };
-
-    updateForecast();
-  }, []);
+      setDays(
+        Object.entries(
+          groupBy(allPeriods, (period) =>
+            dayFormat.format(new Date(period.startTime))
+          )
+        ).map(([key, value]) => ({
+          name: key,
+          periods: value,
+        }))
+      );
+    }
+  }, [forecast]);
 
   return (
     <section>

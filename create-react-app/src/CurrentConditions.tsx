@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import {
+  getGridpointForecast,
   getQuantitativeValue,
   isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
 import React, { FC, useEffect, useState } from "react";
-import { getCurrentPosition } from "./getCurrentPosition";
-import { nwsClient } from "./nws";
 import { usePoint } from "./usePoint";
 
 export const CurrentConditions: FC = () => {
@@ -12,44 +12,37 @@ export const CurrentConditions: FC = () => {
   const [temperatureFahrenheit, setTemperatureFahrenheit] = useState("0");
   const [updateTime, setUpdateTime] = useState<string | undefined>();
   const [updateTimeIso, setUpdateTimeIso] = useState<string | undefined>();
-  const { city, state } = usePoint();
+  const { city, point, state } = usePoint();
+  const { data: forecast } = useQuery(
+    ["gridpointForecast", point],
+    () =>
+      getGridpointForecast({
+        forecastOfficeId: point!.gridId,
+        gridX: point!.gridX,
+        gridY: point!.gridY,
+      }),
+    { enabled: !!point }
+  );
 
   useEffect(() => {
-    const updateForecast = async () => {
-      const position = await getCurrentPosition({
-        timeout: 5000,
-      });
-
-      const forecast = await nwsClient.getGridpointForecast({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-
-      const now = new Date();
+    if (isGridpointForecastGeoJson(forecast)) {
       setUpdateTime(
         new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           minute: "numeric",
           timeZoneName: "short",
-        }).format(now)
+        }).format(new Date(forecast.properties.updateTime))
       );
-      setUpdateTimeIso(now.toISOString());
+      setUpdateTimeIso(forecast.properties.updateTime);
 
-      if (isGridpointForecastGeoJson(forecast)) {
-        const period = forecast.properties.periods[0];
-        const temperatureQv = getQuantitativeValue(
-          period.temperature,
-          "[degF]"
-        );
-        if (temperatureQv.value !== null) {
-          setTemperatureFahrenheit(temperatureQv.value.toString());
-        }
-        setShortForecast(period.shortForecast);
+      const period = forecast.properties.periods[0];
+      const temperatureQv = getQuantitativeValue(period.temperature, "[degF]");
+      if (temperatureQv.value !== null) {
+        setTemperatureFahrenheit(temperatureQv.value.toString());
       }
-    };
-
-    updateForecast();
-  }, []);
+      setShortForecast(period.shortForecast);
+    }
+  }, [forecast]);
 
   return (
     <section>

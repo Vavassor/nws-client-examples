@@ -1,34 +1,39 @@
-import { isPoint, isRelativeLocationGeoJson } from "@vavassor/nws-client";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getPoint,
+  isPointGeoJson,
+  isRelativeLocationGeoJson,
+} from "@vavassor/nws-client";
 import { useEffect, useState } from "react";
 import { getCurrentPosition } from "./getCurrentPosition";
-import { nwsClient } from "./nws";
 
 export const usePoint = () => {
   const [city, setCity] = useState<string | undefined>();
   const [state, setState] = useState<string | undefined>();
+  const { data: position } = useQuery(["currentPosition"], () =>
+    getCurrentPosition({ timeout: 5000 })
+  );
+  const { data: point } = useQuery(
+    ["point", position],
+    async () => {
+      const point = await getPoint({
+        latitude: position!.coords.latitude,
+        longitude: position!.coords.longitude,
+      });
+      return isPointGeoJson(point) ? point.properties : point!;
+    },
+    { enabled: !!position }
+  );
 
   useEffect(() => {
-    const updatePoint = async () => {
-      const position = await getCurrentPosition({
-        timeout: 5000,
-      });
-
-      const point = await nwsClient.getPoint({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-
-      if (isPoint(point)) {
-        const relativeLocation = point.relativeLocation;
-        if (isRelativeLocationGeoJson(relativeLocation)) {
-          setCity(relativeLocation.properties.city);
-          setState(relativeLocation.properties.state);
-        }
+    if (point) {
+      const relativeLocation = point.relativeLocation;
+      if (isRelativeLocationGeoJson(relativeLocation)) {
+        setCity(relativeLocation.properties.city);
+        setState(relativeLocation.properties.state);
       }
-    };
+    }
+  }, [point]);
 
-    updatePoint();
-  }, []);
-
-  return { city, state };
+  return { city, point, state };
 };
