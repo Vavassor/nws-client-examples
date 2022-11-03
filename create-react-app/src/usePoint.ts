@@ -4,12 +4,10 @@ import {
   isPointGeoJson,
   isRelativeLocationGeoJson,
 } from "@vavassor/nws-client";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { getCurrentPosition } from "./getCurrentPosition";
 
 export const usePoint = () => {
-  const [city, setCity] = useState<string | undefined>();
-  const [state, setState] = useState<string | undefined>();
   const { data: position } = useQuery(["currentPosition"], () =>
     getCurrentPosition({ timeout: 5000 })
   );
@@ -25,15 +23,16 @@ export const usePoint = () => {
     { enabled: !!position }
   );
 
-  useEffect(() => {
-    if (point) {
-      const relativeLocation = point.relativeLocation;
-      if (isRelativeLocationGeoJson(relativeLocation)) {
-        setCity(relativeLocation.properties.city);
-        setState(relativeLocation.properties.state);
-      }
-    }
+  const relativeLocation = useMemo(() => {
+    const relativeLocation = point?.relativeLocation;
+    return isRelativeLocationGeoJson(relativeLocation)
+      ? relativeLocation.properties
+      : relativeLocation;
   }, [point]);
 
-  return { city, point, state };
+  return {
+    city: relativeLocation?.city,
+    point,
+    state: relativeLocation?.state,
+  };
 };

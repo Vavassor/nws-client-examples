@@ -4,14 +4,10 @@ import {
   getQuantitativeValue,
   isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useMemo } from "react";
 import { usePoint } from "./usePoint";
 
 export const CurrentConditions: FC = () => {
-  const [shortForecast, setShortForecast] = useState<string | undefined>();
-  const [temperatureFahrenheit, setTemperatureFahrenheit] = useState("0");
-  const [updateTime, setUpdateTime] = useState<string | undefined>();
-  const [updateTimeIso, setUpdateTimeIso] = useState<string | undefined>();
   const { city, point, state } = usePoint();
   const { data: forecast } = useQuery(
     ["gridpointForecast", point],
@@ -24,33 +20,53 @@ export const CurrentConditions: FC = () => {
     { enabled: !!point }
   );
 
-  useEffect(() => {
-    if (isGridpointForecastGeoJson(forecast)) {
-      setUpdateTime(
-        new Intl.DateTimeFormat("en-US", {
-          hour: "numeric",
-          minute: "numeric",
-          timeZoneName: "short",
-        }).format(new Date(forecast.properties.updateTime))
-      );
-      setUpdateTimeIso(forecast.properties.updateTime);
-
-      const period = forecast.properties.periods[0];
-      const temperatureQv = getQuantitativeValue(period.temperature, "[degF]");
-      if (temperatureQv.value !== null) {
-        setTemperatureFahrenheit(temperatureQv.value.toString());
-      }
-      setShortForecast(period.shortForecast);
+  const formattedForecast = useMemo(() => {
+    const properties = isGridpointForecastGeoJson(forecast)
+      ? forecast.properties
+      : forecast;
+    if (!properties) {
+      return undefined;
     }
+
+    const updateTime = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      timeZoneName: "short",
+    }).format(new Date(properties.updateTime));
+    const updateTimeIso = properties.updateTime;
+
+    const period = properties.periods[0];
+    const temperatureQv = getQuantitativeValue(period.temperature, "[degF]");
+    const temperatureFahrenheit =
+      temperatureQv.value !== null ? temperatureQv.value.toString() : undefined;
+    const shortForecast = period.shortForecast;
+
+    return {
+      shortForecast,
+      temperatureFahrenheit,
+      updateTime,
+      updateTimeIso,
+    };
   }, [forecast]);
 
   return (
     <section>
-      <h2>
-        {city}, {state} as of <time dateTime={updateTimeIso}>{updateTime}</time>
-      </h2>
-      <p>{temperatureFahrenheit} °F</p>
-      <p>{shortForecast}</p>
+      {formattedForecast && (
+        <>
+          <h2>
+            {city}, {state} as of{" "}
+            <time dateTime={formattedForecast.updateTimeIso}>
+              {formattedForecast.updateTime}
+            </time>
+          </h2>
+          <p>
+            {formattedForecast.temperatureFahrenheit
+              ? `${formattedForecast.temperatureFahrenheit} °F`
+              : "--"}
+          </p>
+          <p>{formattedForecast.shortForecast}</p>
+        </>
+      )}
     </section>
   );
 };
