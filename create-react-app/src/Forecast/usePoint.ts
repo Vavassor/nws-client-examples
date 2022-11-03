@@ -5,13 +5,13 @@ import {
   isRelativeLocationGeoJson,
 } from "@vavassor/nws-client";
 import { useMemo } from "react";
-import { getCurrentPosition } from "./getCurrentPosition";
+import { getCurrentPosition } from "../Common/getCurrentPosition";
 
 export const usePoint = () => {
   const { data: position } = useQuery(["currentPosition"], () =>
     getCurrentPosition({ timeout: 5000 })
   );
-  const { data: point } = useQuery(
+  const { data: point, isError, isLoading } = useQuery(
     ["point", position],
     async () => {
       const point = await getPoint({
@@ -32,6 +32,8 @@ export const usePoint = () => {
 
   return {
     city: relativeLocation?.city,
+    isError,
+    isLoading,
     point,
     state: relativeLocation?.state,
   };

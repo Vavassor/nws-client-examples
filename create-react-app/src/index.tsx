@@ -3,12 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { nwsClient } from "./nws";
-
-nwsClient.setUserAgentWebsiteAndEmail(
-  "http://github.com/Vavassor/nws-client",
-  "dawso.andrew@gmail.com"
-);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -5,7 +5,7 @@ import {
   isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
 import { FC, Fragment, useMemo } from "react";
-import { groupBy } from "./ArrayUtilities";
+import { groupBy } from "../Common/ArrayUtilities";
 import { usePoint } from "./usePoint";
 
 interface Day {

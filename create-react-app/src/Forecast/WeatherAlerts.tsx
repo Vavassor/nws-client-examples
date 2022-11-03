@@ -4,7 +4,7 @@ import {
   isAlertCollectionGeoJson,
 } from "@vavassor/nws-client";
 import React, { FC, useMemo } from "react";
-import { getCurrentPosition } from "./getCurrentPosition";
+import { getCurrentPosition } from "../Common/getCurrentPosition";
 
 interface Alert {
   description: string;

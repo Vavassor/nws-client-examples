@@ -1,4 +1,4 @@
-import { render, screen } from "./TestUtilities";
+import { render, screen } from "../Common/TestUtilities";
 import { WeatherAlerts } from "./WeatherAlerts";
 
 describe("WeatherAlerts", () => {
