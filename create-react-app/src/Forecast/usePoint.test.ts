@@ -28,7 +28,7 @@ describe("usePoint", () => {
     expect(result.current.state).toBe("VA");
     expect(result.current.point?.gridId).toBe("AKQ");
     expect(result.current.point?.gridX).toBe(40);
-    expect(result.current.point?.gridY).toBe(75);
+    expect(result.current.point?.gridY).toBe(74);
   });
 
   test("returns an error when the request fails", async () => {
