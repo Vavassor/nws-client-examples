@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/geolocation": "^3.0.3",
-    "@vavassor/nws-client": "^0.1.0",
+    "@vavassor/nws-client": "^0.2.0",
     "react": "18.1.0",
     "react-native": "0.70.4",
     "swr": "^1.3.0"
