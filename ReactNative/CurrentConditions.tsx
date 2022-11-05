@@ -1,9 +1,7 @@
 import {
-  getGridpointForecast,
-  getPoint,
+  getGridpointForecastGeoJson,
+  getPointGeoJson,
   getQuantitativeValue,
-  isGridpointForecastGeoJson,
-  isPointGeoJson,
   isRelativeLocationGeoJson,
 } from '@vavassor/nws-client';
 import React, {FC, useMemo} from 'react';
@@ -14,32 +12,28 @@ import {getCurrentPosition} from './getCurrentPosition';
 export const CurrentConditions: FC = () => {
   const {data: geolocation} = useSWR('getCurrentPosition', getCurrentPosition);
 
-  const {data: point} = useSWR(geolocation ? 'getPoint' : null, async () => {
-    const p = await getPoint({
+  const {data: point} = useSWR(geolocation ? 'getPoint' : null, () => {
+    return getPointGeoJson({
       latitude: geolocation!.coords.latitude,
       longitude: geolocation!.coords.longitude,
     });
-    return isPointGeoJson(p) ? p.properties : p!;
   });
 
-  const {data: forecast} = useSWR(
-    point ? 'getGridpointForecast' : null,
-    async () => {
-      const f = await getGridpointForecast({
-        forecastOfficeId: point!.gridId,
-        gridX: point!.gridX,
-        gridY: point!.gridY,
-      });
-      return isGridpointForecastGeoJson(f) ? f.properties : f;
-    },
-  );
+  const {data: forecast} = useSWR(point ? 'getGridpointForecast' : null, () => {
+    return getGridpointForecastGeoJson({
+      forecastOfficeId: point!.properties.gridId,
+      gridX: point!.properties.gridX,
+      gridY: point!.properties.gridY,
+    });
+  });
 
   const formattedForecast = useMemo(() => {
     if (!forecast) {
       return undefined;
     }
 
-    const period = forecast.periods[0];
+    const properties = forecast.properties;
+    const period = properties.periods[0];
     const temperature = getQuantitativeValue(
       period.temperature,
       '[degF]',
@@ -50,14 +44,16 @@ export const CurrentConditions: FC = () => {
       hour: 'numeric',
       minute: 'numeric',
       timeZoneName: 'short',
-    }).format(new Date(forecast.updateTime));
+    }).format(new Date(properties.updateTime));
 
     return {temperature, shortForecast, updateTime};
   }, [forecast]);
 
-  const relativeLocation = isRelativeLocationGeoJson(point?.relativeLocation)
-    ? point?.relativeLocation.properties
-    : point?.relativeLocation;
+  const relativeLocation = isRelativeLocationGeoJson(
+    point?.properties.relativeLocation,
+  )
+    ? point?.properties.relativeLocation.properties
+    : point?.properties.relativeLocation;
 
   return (
     <View style={styles.currentConditions}>
