@@ -3348,12 +3348,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vavassor/nws-client@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@vavassor/nws-client@npm:0.1.0"
+"@vavassor/nws-client@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@vavassor/nws-client@npm:0.3.0"
   dependencies:
     cross-fetch: ^3.1.5
-  checksum: 864c7f3d6bc57c53d8ee6e84782ceb81e57f377027add844f4ddf30fa07edc6ad14186ba2afff6b683f96e27d0bf86c131cb01031d0d3eb878db3c93c83b1c72
+  checksum: 21af1ccdca031a11d3c8d99720ca1fd15474963ffa22921eb3d13f5248ce4b41eea698b1d911931c8f01ce9b266ad3fc4735b73138f8201c7c92dd45ef2ec0d4
   languageName: node
   linkType: hard
 
@@ -6099,7 +6099,7 @@ __metadata:
     "@types/node": ^16.7.13
     "@types/react": ^18.0.0
     "@types/react-dom": ^18.0.0
-    "@vavassor/nws-client": ^0.1.0
+    "@vavassor/nws-client": ^0.3.0
     concurrently: ^7.5.0
     cross-env: ^7.0.3
     electron: ^21.2.1

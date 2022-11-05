@@ -1,9 +1,7 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-  getGridpointForecast,
-  getPoint,
-  isGridpointForecastGeoJson,
-  isPointGeoJson,
+  getGridpointForecastGeoJson,
+  getPointGeoJson,
   ProblemDetail,
   ResponseWithoutBodyError,
 } from "@vavassor/nws-client";
@@ -15,10 +13,10 @@ import {
 } from "./nwsMapping";
 
 type GetGridpointForecastArgs = Exclude<
-  Parameters<typeof getGridpointForecast>[0],
+  Parameters<typeof getGridpointForecastGeoJson>[0],
   "format"
 >;
-type GetPointArgs = Exclude<Parameters<typeof getPoint>[0], "format">;
+type GetPointArgs = Exclude<Parameters<typeof getPointGeoJson>[0], "format">;
 
 interface TransformError {
   message: string;
@@ -34,28 +32,14 @@ export const nwsApi = createApi({
       GetGridpointForecastArgs
     >({
       queryFn: async (args, api, extraOptions, baseQuery) => {
-        const forecast = await getGridpointForecast(args);
-        if (isGridpointForecastGeoJson(forecast)) {
-          return { data: mapGridpointForecast(forecast) };
-        }
-        return {
-          error: {
-            message: "The response body was not a GridpointForecastGeoJson.",
-          },
-        };
+        const forecast = await getGridpointForecastGeoJson(args);
+        return { data: mapGridpointForecast(forecast) };
       },
     }),
     getPoint: builder.query<Point, GetPointArgs>({
       queryFn: async (args, api, extraOptions, baseQuery) => {
-        const point = await getPoint(args);
-        if (isPointGeoJson(point)) {
-          return { data: mapPoint(point) };
-        }
-        return {
-          error: {
-            message: "The response body was not a PointGeoJson.",
-          },
-        };
+        const point = await getPointGeoJson(args);
+        return { data: mapPoint(point) };
       },
     }),
   }),
