@@ -1,8 +1,6 @@
 const express = require("express");
 const {
   NwsClient,
-  isGridpointGeoJson,
-  isGridpointForecastGeoJson,
   getQuantitativeValue,
 } = require("@vavassor/nws-client");
 const app = express();
@@ -12,11 +10,11 @@ const nwsClient = new NwsClient();
 
 app.get("/weather", async (req, res) => {
   const position = { latitude: 37.5247764, longitude: -77.5633017 };
-  const forecast = await nwsClient.getGridpointForecast({
+  const forecast = await nwsClient.getGridpointForecastGeoJson({
     latitude: position.latitude,
     longitude: position.longitude,
   });
-  const gridpoint = await nwsClient.getGridpoint({
+  const gridpoint = await nwsClient.getGridpointGeoJson({
     latitude: position.latitude,
     longitude: position.longitude,
   });
@@ -26,22 +24,15 @@ app.get("/weather", async (req, res) => {
     precipitation: null,
   };
 
-  if (isGridpointForecastGeoJson(forecast)) {
-    const periods = forecast.properties.periods;
-    if (periods.length > 0) {
-      result.temperature = getQuantitativeValue(
-        periods[0].temperature,
-        "[degF]"
-      );
-    }
+  const periods = forecast.properties.periods;
+  if (periods.length > 0) {
+    result.temperature = getQuantitativeValue(periods[0].temperature, "[degF]");
   }
 
-  if (isGridpointGeoJson(gridpoint)) {
-    const precipitationValues =
-      gridpoint.properties.probabilityOfPrecipitation.values;
-    if (precipitationValues.length > 0) {
-      result.precipitation = precipitationValues[0];
-    }
+  const precipitationValues =
+    gridpoint.properties.probabilityOfPrecipitation.values;
+  if (precipitationValues.length > 0) {
+    result.precipitation = precipitationValues[0];
   }
 
   res.json(result).status(200);
