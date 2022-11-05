@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  getGridpointForecastHourly,
+  getGridpointForecastHourlyGeoJson,
   getQuantitativeValue,
-  isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
-import { FC, Fragment, useMemo } from "react";
+import React, { FC, Fragment, useMemo } from "react";
 import { groupBy } from "../Common/ArrayUtilities";
 import { usePoint } from "./usePoint";
 
@@ -25,53 +24,53 @@ const useHourlyForecast = () => {
   const { data: forecast } = useQuery(
     ["gridpointForecastHourly", point],
     () =>
-      getGridpointForecastHourly({
-        forecastOfficeId: point!.gridId,
-        gridX: point!.gridX,
-        gridY: point!.gridY,
+      getGridpointForecastHourlyGeoJson({
+        forecastOfficeId: point!.properties.gridId,
+        gridX: point!.properties.gridX,
+        gridY: point!.properties.gridY,
       }),
     { enabled: !!point }
   );
 
   const days = useMemo(() => {
-    if (isGridpointForecastGeoJson(forecast)) {
-      const dayFormat = new Intl.DateTimeFormat("en-US", {
-        weekday: "long",
-      });
-
-      const allPeriods = forecast.properties.periods.map((period) => {
-        const temperatureValue = getQuantitativeValue(
-          period.temperature,
-          "[degF]"
-        ).value;
-        const temperature = temperatureValue
-          ? temperatureValue.toString()
-          : "--";
-        const windSpeedValue = getQuantitativeValue(
-          period.windSpeed,
-          "[mi_i]/h"
-        ).value;
-        const wind = windSpeedValue ? windSpeedValue.toString() : "--";
-        const hourPeriod: Period = {
-          condition: period.shortForecast,
-          startTime: period.startTime,
-          temperature,
-          wind,
-        };
-        return hourPeriod;
-      });
-
-      const result: Day[] = Object.entries(
-        groupBy(allPeriods, (period) =>
-          dayFormat.format(new Date(period.startTime))
-        )
-      ).map(([key, value]) => ({
-        name: key,
-        periods: value,
-      }));
-
-      return result;
+    if (!forecast) {
+      return undefined;
     }
+
+    const dayFormat = new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+    });
+
+    const allPeriods = forecast.properties.periods.map((period) => {
+      const temperatureValue = getQuantitativeValue(
+        period.temperature,
+        "[degF]"
+      ).value;
+      const temperature = temperatureValue ? temperatureValue.toString() : "--";
+      const windSpeedValue = getQuantitativeValue(
+        period.windSpeed,
+        "[mi_i]/h"
+      ).value;
+      const wind = windSpeedValue ? windSpeedValue.toString() : "--";
+      const hourPeriod: Period = {
+        condition: period.shortForecast,
+        startTime: period.startTime,
+        temperature,
+        wind,
+      };
+      return hourPeriod;
+    });
+
+    const result: Day[] = Object.entries(
+      groupBy(allPeriods, (period) =>
+        dayFormat.format(new Date(period.startTime))
+      )
+    ).map(([key, value]) => ({
+      name: key,
+      periods: value,
+    }));
+
+    return result;
   }, [forecast]);
 
   return { city, days, state };

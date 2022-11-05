@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  getActiveAlerts,
-  isAlertCollectionGeoJson,
-} from "@vavassor/nws-client";
+import { getActiveAlertsGeoJson } from "@vavassor/nws-client";
 import React, { FC, useMemo } from "react";
 import { getCurrentPosition } from "../Common/getCurrentPosition";
 
@@ -17,7 +14,7 @@ export const WeatherAlerts: FC = () => {
   const { data: alertCollection } = useQuery(
     ["activeAlerts"],
     () =>
-      getActiveAlerts({
+      getActiveAlertsGeoJson({
         point: `${position!.coords.latitude.toFixed(
           4
         )},${position!.coords.longitude.toFixed(4)}`,
@@ -26,12 +23,13 @@ export const WeatherAlerts: FC = () => {
   );
 
   const alerts = useMemo(() => {
-    if (isAlertCollectionGeoJson(alertCollection)) {
-      const result: Alert[] = alertCollection.features.map((feature) => ({
-        description: feature.properties.description,
-      }));
-      return result;
+    if (!alertCollection) {
+      return undefined;
     }
+    const result: Alert[] = alertCollection.features.map((feature) => ({
+      description: feature.properties.description,
+    }));
+    return result;
   }, [alertCollection]);
 
   return (

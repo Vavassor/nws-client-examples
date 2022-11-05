@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  getPoint,
-  isPointGeoJson,
+  getPointGeoJson,
   isRelativeLocationGeoJson,
 } from "@vavassor/nws-client";
 import { useMemo } from "react";
@@ -11,20 +10,23 @@ export const usePoint = () => {
   const { data: position } = useQuery(["currentPosition"], () =>
     getCurrentPosition({ timeout: 5000 })
   );
-  const { data: point, isError, isLoading } = useQuery(
+  const {
+    data: point,
+    isError,
+    isLoading,
+  } = useQuery(
     ["point", position],
-    async () => {
-      const point = await getPoint({
+    () => {
+      return getPointGeoJson({
         latitude: position!.coords.latitude,
         longitude: position!.coords.longitude,
       });
-      return isPointGeoJson(point) ? point.properties : point!;
     },
     { enabled: !!position }
   );
 
   const relativeLocation = useMemo(() => {
-    const relativeLocation = point?.relativeLocation;
+    const relativeLocation = point?.properties.relativeLocation;
     return isRelativeLocationGeoJson(relativeLocation)
       ? relativeLocation.properties
       : relativeLocation;

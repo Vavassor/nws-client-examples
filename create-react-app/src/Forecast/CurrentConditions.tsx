@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  getGridpointForecast,
+  getGridpointForecastGeoJson,
   getQuantitativeValue,
-  isGridpointForecastGeoJson,
 } from "@vavassor/nws-client";
 import React, { FC, useMemo } from "react";
 import { usePoint } from "./usePoint";
@@ -12,21 +11,20 @@ export const CurrentConditions: FC = () => {
   const { data: forecast } = useQuery(
     ["gridpointForecast", point],
     () =>
-      getGridpointForecast({
-        forecastOfficeId: point!.gridId,
-        gridX: point!.gridX,
-        gridY: point!.gridY,
+      getGridpointForecastGeoJson({
+        forecastOfficeId: point!.properties.gridId,
+        gridX: point!.properties.gridX,
+        gridY: point!.properties.gridY,
       }),
     { enabled: !!point }
   );
 
   const formattedForecast = useMemo(() => {
-    const properties = isGridpointForecastGeoJson(forecast)
-      ? forecast.properties
-      : forecast;
-    if (!properties) {
+    if (!forecast) {
       return undefined;
     }
+
+    const properties = forecast.properties;
 
     const updateTime = new Intl.DateTimeFormat("en-US", {
       hour: "numeric",

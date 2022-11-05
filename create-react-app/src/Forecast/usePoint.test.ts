@@ -20,19 +20,19 @@ export const mockedNwsClient = nwsClient as jest.Mocked<typeof nwsClient>;
 
 describe("usePoint", () => {
   test("gets a point", async () => {
-    mockedNwsClient.getPoint.mockResolvedValue(pointGeoJson);
+    mockedNwsClient.getPointGeoJson.mockResolvedValue(pointGeoJson);
     const { result } = renderHook(() => usePoint(), { wrapper });
     await waitFor(() => expect(result.current.point).toBeDefined());
     expect(result.current.isError).toBeFalsy();
     expect(result.current.city).toBe("Bon Air");
     expect(result.current.state).toBe("VA");
-    expect(result.current.point?.gridId).toBe("AKQ");
-    expect(result.current.point?.gridX).toBe(40);
-    expect(result.current.point?.gridY).toBe(74);
+    expect(result.current.point?.properties.gridId).toBe("AKQ");
+    expect(result.current.point?.properties.gridX).toBe(40);
+    expect(result.current.point?.properties.gridY).toBe(74);
   });
 
   test("returns an error when the request fails", async () => {
-    mockedNwsClient.getPoint.mockRejectedValue({
+    mockedNwsClient.getPointGeoJson.mockRejectedValue({
       message: "test rejection",
       status: 503,
       statusText: "Service Unavailable",
