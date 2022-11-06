@@ -1,3 +1,4 @@
+import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveAlertsGeoJson } from "@vavassor/nws-client";
 import React, { FC, useMemo } from "react";
@@ -33,17 +34,17 @@ export const WeatherAlerts: FC = () => {
   }, [alertCollection]);
 
   return (
-    <section>
-      <h2>Weather Alerts</h2>
+    <Box borderRadius="lg" borderWidth="1px" px={8} py={4}>
+      <Heading as="h2" size="lg">Weather Alerts</Heading>
       {alerts && alerts.length > 0 ? (
-        <ul>
+        <UnorderedList>
           {alerts.map((alert) => (
-            <li>{alert.description}</li>
+            <ListItem>{alert.description}</ListItem>
           ))}
-        </ul>
+        </UnorderedList>
       ) : (
-        <p>No weather alerts.</p>
+        <Text>No weather alerts.</Text>
       )}
-    </section>
+    </Box>
   );
 };

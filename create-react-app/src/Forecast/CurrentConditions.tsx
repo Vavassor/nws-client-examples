@@ -1,3 +1,4 @@
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getGridpointForecastGeoJson,
@@ -48,23 +49,23 @@ export const CurrentConditions: FC = () => {
   }, [forecast]);
 
   return (
-    <section>
+    <Box as="section" borderRadius="lg" borderWidth="1px" px={8} py={4}>
       {formattedForecast && (
         <>
-          <h2>
+          <Heading as="h2" size="lg">
             {city}, {state} as of{" "}
             <time dateTime={formattedForecast.updateTimeIso}>
               {formattedForecast.updateTime}
             </time>
-          </h2>
-          <p>
+          </Heading>
+          <Text>
             {formattedForecast.temperatureFahrenheit
               ? `${formattedForecast.temperatureFahrenheit} °F`
               : "--"}
-          </p>
-          <p>{formattedForecast.shortForecast}</p>
+          </Text>
+          <Text>{formattedForecast.shortForecast}</Text>
         </>
       )}
-    </section>
+    </Box>
   );
 };

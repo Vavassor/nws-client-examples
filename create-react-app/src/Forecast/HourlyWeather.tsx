@@ -1,3 +1,14 @@
+import {
+  Box,
+  Heading,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getGridpointForecastHourlyGeoJson,
@@ -80,52 +91,58 @@ export const HourlyWeather: FC = () => {
   const { city, days, state } = useHourlyForecast();
 
   return (
-    <section>
+    <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       {days && (
         <>
-          <h2>{`Today's Forecast for ${city}, ${state}`}</h2>
-          <table>
-            <thead className="visually-hidden">
-              <tr>
-                <th id="time">Time</th>
-                <th id="temperature">Temperature</th>
-                <th id="condition">Condition</th>
-                <th id="wind">Wind</th>
-              </tr>
-            </thead>
-            <tbody>
-              {days.slice(0, 4).map((day, index) => {
-                const dayId = `day-${index}`;
-                return (
-                  <Fragment key={day.name}>
-                    <tr>
-                      <th colSpan={4} id={dayId} scope="colgroup">
-                        {day.name}
-                      </th>
-                    </tr>
-                    {day.periods.map((period) => (
-                      <tr key={period.startTime}>
-                        <td headers={`${dayId} time`}>
-                          {new Intl.DateTimeFormat("en-US", {
-                            timeStyle: "short",
-                          }).format(new Date(period.startTime))}
-                        </td>
-                        <td headers={`${dayId} temperature`}>
-                          {period.temperature} °F
-                        </td>
-                        <td headers={`${dayId} condition`}>
-                          {period.condition}
-                        </td>
-                        <td headers={`${dayId} wind`}>{period.wind} mph</td>
-                      </tr>
-                    ))}
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </table>
+          <Heading
+            as="h2"
+            px={8}
+            size="lg"
+          >{`Today's Forecast for ${city}, ${state}`}</Heading>
+          <TableContainer>
+            <Table variant="simple">
+              <Thead className="visually-hidden">
+                <Tr>
+                  <Th id="time">Time</Th>
+                  <Th id="temperature">Temperature</Th>
+                  <Th id="condition">Condition</Th>
+                  <Th id="wind">Wind</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {days.slice(0, 4).map((day, index) => {
+                  const dayId = `day-${index}`;
+                  return (
+                    <Fragment key={day.name}>
+                      <Tr>
+                        <Th colSpan={4} id={dayId} scope="colgroup">
+                          {day.name}
+                        </Th>
+                      </Tr>
+                      {day.periods.map((period) => (
+                        <Tr key={period.startTime}>
+                          <Td headers={`${dayId} time`}>
+                            {new Intl.DateTimeFormat("en-US", {
+                              timeStyle: "short",
+                            }).format(new Date(period.startTime))}
+                          </Td>
+                          <Td headers={`${dayId} temperature`}>
+                            {period.temperature} °F
+                          </Td>
+                          <Td headers={`${dayId} condition`}>
+                            {period.condition}
+                          </Td>
+                          <Td headers={`${dayId} wind`}>{period.wind} mph</Td>
+                        </Tr>
+                      ))}
+                    </Fragment>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
         </>
       )}
-    </section>
+    </Box>
   );
 };
