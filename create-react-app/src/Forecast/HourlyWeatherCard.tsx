@@ -87,7 +87,7 @@ const useHourlyForecast = () => {
   return { city, days, state };
 };
 
-export const HourlyWeather: FC = () => {
+export const HourlyWeatherCard: FC = () => {
   const { city, days, state } = useHourlyForecast();
 
   return (

@@ -7,6 +7,7 @@
     "@chakra-ui/skip-nav": "^2.0.11",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@lhncbc/ucum-lhc": "^4.1.6",
     "@tanstack/react-query": "^4.13.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.4.0",
