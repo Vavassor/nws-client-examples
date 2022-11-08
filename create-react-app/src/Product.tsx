@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 export const Product: FC = () => {
   const { productId } = useParams();
   const { data: product } = useQuery(
-    ["products", productId],
+    ["product", productId],
     () => getProduct({ productId: productId! }),
     {
       enabled: !!productId,

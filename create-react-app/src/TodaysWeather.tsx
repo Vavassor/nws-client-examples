@@ -4,6 +4,7 @@ import { SkipNavContent } from "@chakra-ui/skip-nav";
 import { CurrentConditions } from "./Forecast/CurrentConditions";
 import { WeatherAlerts } from "./Forecast/WeatherAlerts";
 import { TodaysConditions } from "./Forecast/TodaysConditions";
+import { LocalInformationCard } from "./Forecast/LocalInformationCard";
 
 export const TodaysWeather = () => {
   return (
@@ -15,7 +16,8 @@ export const TodaysWeather = () => {
         maxWidth="100%"
         templateAreas={`"current"
           "alerts"
-          "todays"`}
+          "todays"
+          "local"`}
       >
         <GridItem area="current">
           <CurrentConditions />
@@ -25,6 +27,9 @@ export const TodaysWeather = () => {
         </GridItem>
         <GridItem area="todays">
           <TodaysConditions />
+        </GridItem>
+        <GridItem area="local">
+          <LocalInformationCard />
         </GridItem>
       </Grid>
     </Container>
