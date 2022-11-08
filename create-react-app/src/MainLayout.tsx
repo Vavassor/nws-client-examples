@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { SkipNavLink } from "@chakra-ui/skip-nav";
 import {
+  Box,
   Button,
   Container,
   Heading,
@@ -23,36 +24,42 @@ export const MainLayout: FC = () => {
   return (
     <>
       <SkipNavLink>Skip to content</SkipNavLink>
-      <Stack
-        alignItems={{ lg: "center" }}
+      <Box
         as="header"
         backgroundColor="white"
         borderBottomWidth={1}
-        direction={{ base: "column", lg: "row" }}
         paddingX={6}
         paddingY={3}
       >
         <Container maxW="container.xl">
-          <HStack justifyContent="space-between">
-            <Heading as="h1" me={4} size="xl">
-              Weather
-            </Heading>
+          <Stack
+            alignItems={{ lg: "center" }}
+            direction={{ base: "column", lg: "row" }}
+          >
+            <HStack justifyContent="space-between">
+              <Heading as="h1" me={4} size="xl">
+                Weather
+              </Heading>
 
-            <Hide above="lg">
-              <Button {...buttonProps}>Menu</Button>
-            </Hide>
-          </HStack>
+              <Hide above="lg">
+                <Button {...buttonProps}>Menu</Button>
+              </Hide>
+            </HStack>
 
-          <nav {...(shouldShowMenu ? disclosureProps : {})}>
-            <Link as={RouterLink} me={4} to="/">
-              Today
-            </Link>
-            <Link as={RouterLink} to="/hourly">
-              Hourly
-            </Link>
-          </nav>
+            <nav {...(shouldShowMenu ? disclosureProps : {})}>
+              <Link as={RouterLink} to="/">
+                Today
+              </Link>
+              <Link as={RouterLink} ms={4} to="/hourly">
+                Hourly
+              </Link>
+              <Link as={RouterLink} ms={4} to="/products">
+                Products
+              </Link>
+            </nav>
+          </Stack>
         </Container>
-      </Stack>
+      </Box>
       <Outlet />
     </>
   );

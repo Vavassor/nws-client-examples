@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HourlyWeather } from "./HourlyWeather";
 import { MainLayout } from "./MainLayout";
+import { Product } from "./Product";
+import { ProductsPage } from "./ProductsPage";
 import { TodaysWeather } from "./TodaysWeather";
 
 const queryClient = new QueryClient();
@@ -17,7 +19,15 @@ const router = createBrowserRouter([
       {
         element: <HourlyWeather />,
         path: "hourly",
-      }
+      },
+      {
+        element: <ProductsPage />,
+        path: "products",
+      },
+      {
+        element: <Product />,
+        path: "products/:productId",
+      },
     ],
     element: <MainLayout />,
     path: "/",
