@@ -1,5 +1,3 @@
-import React, { FC } from "react";
-import { SkipNavLink } from "@chakra-ui/skip-nav";
 import {
   Box,
   Button,
@@ -12,6 +10,8 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { SkipNavLink } from "@chakra-ui/skip-nav";
+import { FC } from "react";
 import { Link as RouterLink, Outlet } from "react-router-dom";
 
 export const MainLayout: FC = () => {
@@ -37,7 +37,7 @@ export const MainLayout: FC = () => {
             direction={{ base: "column", lg: "row" }}
           >
             <HStack justifyContent="space-between">
-              <Heading as="h1" me={4} size="xl">
+              <Heading as="h2" fontSize="xl" me={4}>
                 Weather
               </Heading>
 

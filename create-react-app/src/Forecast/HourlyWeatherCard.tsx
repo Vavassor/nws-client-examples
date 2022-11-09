@@ -95,7 +95,7 @@ export const HourlyWeatherCard: FC = () => {
       {days && (
         <>
           <Heading
-            as="h2"
+            as="h1"
             px={8}
             size="lg"
           >{`Today's Forecast for ${city}, ${state}`}</Heading>

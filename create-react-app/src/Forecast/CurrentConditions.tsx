@@ -52,7 +52,7 @@ export const CurrentConditions: FC = () => {
     <Box as="section" borderRadius="lg" borderWidth="1px" px={8} py={4}>
       {formattedForecast && (
         <>
-          <Heading as="h2" size="lg">
+          <Heading as="h1" size="lg">
             {city}, {state} as of{" "}
             <time dateTime={formattedForecast.updateTimeIso}>
               {formattedForecast.updateTime}

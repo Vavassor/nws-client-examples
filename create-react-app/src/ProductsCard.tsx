@@ -31,6 +31,7 @@ export const ProductsCard = () => {
       getProducts({
         end: endTime,
         limit: 25,
+        location: searchParams.getAll("location"),
         office: searchParams.getAll("office"),
         start: startTime,
       }),
@@ -41,7 +42,7 @@ export const ProductsCard = () => {
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
-      <Heading as="h2" px={8} size="lg">
+      <Heading as="h1" px={8} size="lg">
         Products
       </Heading>
       <TableContainer>
