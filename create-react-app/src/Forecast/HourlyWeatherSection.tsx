@@ -90,7 +90,7 @@ const useHourlyForecast = () => {
 
 export const HourlyWeatherSection: FC = () => {
   const { city, days, state } = useHourlyForecast();
-  const { t } = useTranslation("hourlyWeather");
+  const { t } = useTranslation("forecast");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>

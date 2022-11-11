@@ -11,7 +11,7 @@ interface Alert {
   headline: null | string | undefined;
 }
 
-export const WeatherAlertsCard: FC = () => {
+export const WeatherAlertsSection: FC = () => {
   const { data: position } = useQuery(["currentPosition"], () =>
     getCurrentPosition({ timeout: 5000 })
   );
@@ -25,7 +25,7 @@ export const WeatherAlertsCard: FC = () => {
       }),
     { enabled: !!position }
   );
-  const { t } = useTranslation("todaysWeather");
+  const { t } = useTranslation("forecast");
 
   const alerts = useMemo(() => {
     if (!alertCollection) {

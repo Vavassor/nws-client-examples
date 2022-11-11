@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { usePoint } from "./usePoint";
 
-export const LocalInformationCard: FC = () => {
+export const LocalInformationSection: FC = () => {
   const { point } = usePoint();
-  const { t } = useTranslation("todaysWeather");
+  const { t } = useTranslation("forecast");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>

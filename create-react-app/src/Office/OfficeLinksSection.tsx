@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const OfficeLinksSection: FC<Props> = ({ officeId }) => {
-  const { t } = useTranslation("offices");
+  const { t } = useTranslation("office");
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       <Heading as="h2" px={8} size="lg">

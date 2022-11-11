@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@vavassor/nws-client";
-import React, { useState } from "react";
-import { usePoint } from "./Forecast/usePoint";
 import dayjs from "dayjs";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useSearchParams } from "react-router-dom";
+import { usePoint } from "../Forecast/usePoint";
 
 export const ProductsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,7 +24,7 @@ export const ProductsSection = () => {
   const [startTime, setStartTime] = useState(
     dayjs().startOf("day").toISOString()
   );
-  const { t } = useTranslation("products");
+  const { t } = useTranslation("product");
 
   const { point } = usePoint();
   const { data: products } = useQuery(

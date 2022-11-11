@@ -1,5 +1,5 @@
 import { render, screen } from "../Common/TestUtilities";
-import { WeatherAlertsCard } from "./WeatherAlertsCard";
+import { WeatherAlertsSection } from "./WeatherAlertsSection";
 import * as nwsClient from "@vavassor/nws-client";
 
 jest.mock("@vavassor/nws-client", () => {
@@ -13,9 +13,9 @@ jest.mock("@vavassor/nws-client", () => {
 
 export const mockedNwsClient = nwsClient as jest.Mocked<typeof nwsClient>;
 
-describe("WeatherAlertsCard", () => {
+describe("WeatherAlertsSection", () => {
   test("shows the heading", () => {
-    render(<WeatherAlertsCard />);
+    render(<WeatherAlertsSection />);
     expect(screen.getByText("Weather Alerts")).toBeInTheDocument();
   });
 });

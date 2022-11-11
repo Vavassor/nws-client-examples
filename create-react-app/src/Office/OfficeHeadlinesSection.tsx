@@ -23,7 +23,7 @@ export const OfficeHeadlinesSection: FC<Props> = ({ officeId }) => {
       enabled: !!officeId,
     }
   );
-  const { t } = useTranslation("offices");
+  const { t } = useTranslation("office");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>

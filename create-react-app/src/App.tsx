@@ -2,12 +2,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HourlyWeather } from "./HourlyWeather";
+import { HourlyWeatherPage } from "./Forecast/HourlyWeatherPage";
 import { MainLayout } from "./MainLayout";
 import { OfficePage } from "./Office/OfficePage";
-import { ProductPage } from "./ProductPage";
-import { ProductsPage } from "./ProductsPage";
-import { TodaysWeather } from "./TodaysWeather";
+import { ProductPage } from "./Product/ProductPage";
+import { ProductsPage } from "./Product/ProductsPage";
+import { TodaysWeatherPage } from "./Forecast/TodaysWeatherPage";
 
 const queryClient = new QueryClient();
 
@@ -15,11 +15,11 @@ const router = createBrowserRouter([
   {
     children: [
       {
-        element: <TodaysWeather />,
+        element: <TodaysWeatherPage />,
         index: true,
       },
       {
-        element: <HourlyWeather />,
+        element: <HourlyWeatherPage />,
         path: "hourly",
       },
       {

@@ -1,4 +1,5 @@
 import { Box, Heading } from "@chakra-ui/react";
+import { UcumLhcUtils } from "@lhncbc/ucum-lhc";
 import { useQuery } from "@tanstack/react-query";
 import {
   getGridpointGeoJson,
@@ -7,14 +8,13 @@ import {
   GridpointQuantitativeValueLayer,
   QuantitativeValue,
 } from "@vavassor/nws-client";
-import React, { FC, useMemo } from "react";
-import { usePoint } from "./usePoint";
-import { UcumLhcUtils } from "@lhncbc/ucum-lhc";
+import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { usePoint } from "./usePoint";
 
 const utils = UcumLhcUtils.getInstance();
 
-export const TodaysConditionsCard: FC = () => {
+export const TodaysConditionsSection: FC = () => {
   const { city, point, state } = usePoint();
   const { data: gridpoint } = useQuery(
     ["gridpoint", point],
@@ -26,7 +26,7 @@ export const TodaysConditionsCard: FC = () => {
       }),
     { enabled: !!point }
   );
-  const { t } = useTranslation("todaysWeather");
+  const { t } = useTranslation("forecast");
 
   const formattedGridpoint = useMemo(() => {
     if (!gridpoint) {

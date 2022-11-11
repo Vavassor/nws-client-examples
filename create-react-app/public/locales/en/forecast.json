@@ -2,6 +2,13 @@
   "currentConditionsCard": {
     "heading": "{{city}}, {{state}} as of <5>{{updateTime}}</5>"
   },
+  "hourlyWeatherSection": {
+    "heading": "Today's Forecast for {{city}}, {{state}}",
+    "shortForecastTableHeader": "Condition",
+    "temperatureTableHeader": "Temperature",
+    "timeTableHeader": "Time",
+    "windTableHeader": "Wind"
+  },
   "localInformationCard": {
     "forecastOfficeLink": "Local forecast office",
     "heading": "Local Information"

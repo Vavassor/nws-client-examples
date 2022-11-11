@@ -1,12 +1,11 @@
-import React from "react";
 import { Container, Grid, GridItem } from "@chakra-ui/react";
 import { SkipNavContent } from "@chakra-ui/skip-nav";
-import { CurrentConditions } from "./Forecast/CurrentConditions";
-import { WeatherAlertsCard } from "./Forecast/WeatherAlertsCard";
-import { TodaysConditionsCard } from "./Forecast/TodaysConditionsCard";
-import { LocalInformationCard } from "./Forecast/LocalInformationCard";
+import { CurrentConditionsSection } from "./CurrentConditionsSection";
+import { LocalInformationSection } from "./LocalInformationSection";
+import { TodaysConditionsSection } from "./TodaysConditionsSection";
+import { WeatherAlertsSection } from "./WeatherAlertsSection";
 
-export const TodaysWeather = () => {
+export const TodaysWeatherPage = () => {
   return (
     <Container as="main" maxW="container.sm" pt={4}>
       <SkipNavContent />
@@ -20,16 +19,16 @@ export const TodaysWeather = () => {
           "local"`}
       >
         <GridItem area="current">
-          <CurrentConditions />
+          <CurrentConditionsSection />
         </GridItem>
         <GridItem area="alerts">
-          <WeatherAlertsCard />
+          <WeatherAlertsSection />
         </GridItem>
         <GridItem area="todays">
-          <TodaysConditionsCard />
+          <TodaysConditionsSection />
         </GridItem>
         <GridItem area="local">
-          <LocalInformationCard />
+          <LocalInformationSection />
         </GridItem>
       </Grid>
     </Container>

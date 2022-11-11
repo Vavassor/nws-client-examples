@@ -4,11 +4,11 @@ import {
   getGridpointForecastGeoJson,
   getQuantitativeValue,
 } from "@vavassor/nws-client";
-import React, { FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { usePoint } from "./usePoint";
 
-export const CurrentConditions: FC = () => {
+export const CurrentConditionsSection: FC = () => {
   const { city, point, state } = usePoint();
   const { data: forecast } = useQuery(
     ["gridpointForecast", point],
@@ -21,7 +21,7 @@ export const CurrentConditions: FC = () => {
       }),
     { enabled: !!point }
   );
-  const { t } = useTranslation("todaysWeather");
+  const { t } = useTranslation("forecast");
 
   const formattedForecast = useMemo(() => {
     if (!forecast) {
