@@ -12,7 +12,7 @@ jest.mock("@vavassor/nws-client", () => {
   return {
     __esModule: true,
     ...jest.requireActual("@vavassor/nws-client"),
-    getPoint: jest.fn(),
+    getPointGeoJson: jest.fn(),
   };
 });
 

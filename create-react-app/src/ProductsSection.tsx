@@ -16,13 +16,15 @@ import React, { useState } from "react";
 import { usePoint } from "./Forecast/usePoint";
 import dayjs from "dayjs";
 import { Link, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-export const ProductsCard = () => {
+export const ProductsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [endTime, setEndTime] = useState(dayjs().endOf("day").toISOString());
   const [startTime, setStartTime] = useState(
     dayjs().startOf("day").toISOString()
   );
+  const { t } = useTranslation("products");
 
   const { point } = usePoint();
   const { data: products } = useQuery(
@@ -43,15 +45,15 @@ export const ProductsCard = () => {
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       <Heading as="h1" px={8} size="lg">
-        Products
+        {t("productsSection.heading")}
       </Heading>
       <TableContainer>
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Time</Th>
-              <Th>Office</Th>
+              <Th>{t("productsSection.nameTableHeader")}</Th>
+              <Th>{t("productsSection.timeTableHeader")}</Th>
+              <Th>{t("productsSection.officeTableHeader")}</Th>
             </Tr>
           </Thead>
           <Tbody>

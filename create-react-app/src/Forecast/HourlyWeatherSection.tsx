@@ -14,7 +14,8 @@ import {
   getGridpointForecastHourlyGeoJson,
   getQuantitativeValue,
 } from "@vavassor/nws-client";
-import React, { FC, Fragment, useMemo } from "react";
+import { FC, Fragment, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { groupBy } from "../Common/ArrayUtilities";
 import { usePoint } from "./usePoint";
 
@@ -87,26 +88,29 @@ const useHourlyForecast = () => {
   return { city, days, state };
 };
 
-export const HourlyWeatherCard: FC = () => {
+export const HourlyWeatherSection: FC = () => {
   const { city, days, state } = useHourlyForecast();
+  const { t } = useTranslation("hourlyWeather");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       {days && (
         <>
-          <Heading
-            as="h1"
-            px={8}
-            size="lg"
-          >{`Today's Forecast for ${city}, ${state}`}</Heading>
+          <Heading as="h1" px={8} size="lg">
+            {t("hourlyWeatherSection.heading", { city, state })}
+          </Heading>
           <TableContainer>
             <Table variant="simple">
               <Thead className="visually-hidden">
                 <Tr>
-                  <Th id="time">Time</Th>
-                  <Th id="temperature">Temperature</Th>
-                  <Th id="condition">Condition</Th>
-                  <Th id="wind">Wind</Th>
+                  <Th id="time">{t("hourlyWeatherSection.timeTableHeader")}</Th>
+                  <Th id="temperature">
+                    {t("hourlyWeatherSection.temperatureTableHeader")}
+                  </Th>
+                  <Th id="condition">
+                    {t("hourlyWeatherSection.shortForecastTableHeader")}
+                  </Th>
+                  <Th id="wind">{t("hourlyWeatherSection.windTableHeader")}</Th>
                 </Tr>
               </Thead>
               <Tbody>

@@ -2,6 +2,7 @@ import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveAlertsGeoJson } from "@vavassor/nws-client";
 import { FC, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { getCurrentPosition } from "../Common/getCurrentPosition";
 
 interface Alert {
@@ -10,7 +11,7 @@ interface Alert {
   headline: null | string | undefined;
 }
 
-export const WeatherAlerts: FC = () => {
+export const WeatherAlertsCard: FC = () => {
   const { data: position } = useQuery(["currentPosition"], () =>
     getCurrentPosition({ timeout: 5000 })
   );
@@ -24,6 +25,7 @@ export const WeatherAlerts: FC = () => {
       }),
     { enabled: !!position }
   );
+  const { t } = useTranslation("todaysWeather");
 
   const alerts = useMemo(() => {
     if (!alertCollection) {
@@ -42,7 +44,7 @@ export const WeatherAlerts: FC = () => {
   return (
     <Box borderRadius="lg" borderWidth="1px" px={8} py={4}>
       <Heading as="h2" size="lg">
-        Weather Alerts
+        {t("weatherAlertsCard.heading")}
       </Heading>
       {alerts && alerts.length > 0 ? (
         <UnorderedList>
@@ -51,7 +53,7 @@ export const WeatherAlerts: FC = () => {
           ))}
         </UnorderedList>
       ) : (
-        <Text>No weather alerts.</Text>
+        <Text>{t("weatherAlertsCard.noAlertsMessage")}</Text>
       )}
     </Box>
   );

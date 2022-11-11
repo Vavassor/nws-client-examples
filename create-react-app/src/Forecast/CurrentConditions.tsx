@@ -5,6 +5,7 @@ import {
   getQuantitativeValue,
 } from "@vavassor/nws-client";
 import React, { FC, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { usePoint } from "./usePoint";
 
 export const CurrentConditions: FC = () => {
@@ -13,12 +14,14 @@ export const CurrentConditions: FC = () => {
     ["gridpointForecast", point],
     () =>
       getGridpointForecastGeoJson({
+        featureFlags: ["forecast_temperature_qv", "forecast_wind_speed_qv"],
         forecastOfficeId: point!.properties.gridId,
         gridX: point!.properties.gridX,
         gridY: point!.properties.gridY,
       }),
     { enabled: !!point }
   );
+  const { t } = useTranslation("todaysWeather");
 
   const formattedForecast = useMemo(() => {
     if (!forecast) {
@@ -37,7 +40,7 @@ export const CurrentConditions: FC = () => {
     const period = properties.periods[0];
     const temperatureQv = getQuantitativeValue(period.temperature, "[degF]");
     const temperatureFahrenheit =
-      temperatureQv.value !== null ? temperatureQv.value.toString() : undefined;
+      temperatureQv.value !== null ? temperatureQv.value.toFixed(0) : undefined;
     const shortForecast = period.shortForecast;
 
     return {
@@ -53,10 +56,12 @@ export const CurrentConditions: FC = () => {
       {formattedForecast && (
         <>
           <Heading as="h1" size="lg">
-            {city}, {state} as of{" "}
-            <time dateTime={formattedForecast.updateTimeIso}>
-              {formattedForecast.updateTime}
-            </time>
+            <Trans i18nKey="currentConditionsCard.heading" t={t}>
+              {{ city }}, {{ state }} as of{" "}
+              <time dateTime={formattedForecast.updateTimeIso}>
+                {{ updateTime: formattedForecast.updateTime } as any}
+              </time>
+            </Trans>
           </Heading>
           <Text>
             {formattedForecast.temperatureFahrenheit

@@ -2,9 +2,9 @@ import { Container, Grid, GridItem } from "@chakra-ui/react";
 import { SkipNavContent } from "@chakra-ui/skip-nav";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { OfficeHeadlinesCard } from "./OfficeHeadlinesCard";
-import { OfficeLinksCard } from "./OfficeLinksCard";
-import { OfficeSummaryCard } from "./OfficeSummaryCard";
+import { OfficeHeadlinesSection } from "./OfficeHeadlinesSection";
+import { OfficeLinksSection } from "./OfficeLinksSection";
+import { OfficeSummarySection } from "./OfficeSummarySection";
 
 export const OfficePage: FC = () => {
   const { officeId } = useParams();
@@ -22,13 +22,13 @@ export const OfficePage: FC = () => {
           "links"`}
       >
         <GridItem area="summary">
-          <OfficeSummaryCard officeId={officeId} />
+          <OfficeSummarySection officeId={officeId} />
         </GridItem>
         <GridItem area="news">
-          <OfficeHeadlinesCard officeId={officeId} />
+          <OfficeHeadlinesSection officeId={officeId} />
         </GridItem>
         <GridItem area="links">
-          <OfficeLinksCard officeId={officeId} />
+          <OfficeLinksSection officeId={officeId} />
         </GridItem>
       </Grid>
     </Container>

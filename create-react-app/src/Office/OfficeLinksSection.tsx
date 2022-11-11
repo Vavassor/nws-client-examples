@@ -1,21 +1,23 @@
 import { Box, Heading, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
 interface Props {
   officeId: string | undefined;
 }
 
-export const OfficeLinksCard: FC<Props> = ({ officeId }) => {
+export const OfficeLinksSection: FC<Props> = ({ officeId }) => {
+  const { t } = useTranslation("offices");
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       <Heading as="h2" px={8} size="lg">
-        Links
+        {t("officeLinksSection.heading")}
       </Heading>
       <UnorderedList px={8}>
         <ListItem>
           <Link as={RouterLink} to={`/products?location=${officeId}`}>
-            Latest related text products
+            {t("officeLinksSection.latestRelatedTextProductsLink")}
           </Link>
         </ListItem>
       </UnorderedList>

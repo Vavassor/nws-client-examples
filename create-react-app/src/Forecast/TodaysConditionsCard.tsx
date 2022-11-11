@@ -10,10 +10,11 @@ import {
 import React, { FC, useMemo } from "react";
 import { usePoint } from "./usePoint";
 import { UcumLhcUtils } from "@lhncbc/ucum-lhc";
+import { useTranslation } from "react-i18next";
 
 const utils = UcumLhcUtils.getInstance();
 
-export const TodaysConditions: FC = () => {
+export const TodaysConditionsCard: FC = () => {
   const { city, point, state } = usePoint();
   const { data: gridpoint } = useQuery(
     ["gridpoint", point],
@@ -25,6 +26,7 @@ export const TodaysConditions: FC = () => {
       }),
     { enabled: !!point }
   );
+  const { t } = useTranslation("todaysWeather");
 
   const formattedGridpoint = useMemo(() => {
     if (!gridpoint) {
@@ -135,20 +137,40 @@ export const TodaysConditions: FC = () => {
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" px={8} py={4}>
       <Heading as="h2" size="lg">
-        Weather today in {city}, {state}
+        {t("todaysConditionsCard.heading", { city, state })}
       </Heading>
       <p>
-        Low / High: {formattedGridpoint?.minTemperature} /{" "}
-        {formattedGridpoint?.maxTemperature}
+        {t("todaysConditionsCard.lowAndHighTemperature", {
+          min: formattedGridpoint?.minTemperature,
+          max: formattedGridpoint?.maxTemperature,
+        })}
       </p>
-      <p>Pressure: {formattedGridpoint?.pressure}</p>
-      <p>Humidity: {formattedGridpoint?.relativeHumidity}</p>
-      <p>Dew point: {formattedGridpoint?.dewPoint}</p>
       <p>
-        Wind: {formattedGridpoint?.windDirection}{" "}
-        {formattedGridpoint?.windSpeed}
+        {t("todaysConditionsCard.pressure", {
+          pressure: formattedGridpoint?.pressure,
+        })}
       </p>
-      <p>Visibility: {formattedGridpoint?.visibility}</p>
+      <p>
+        {t("todaysConditionsCard.humidity", {
+          humidity: formattedGridpoint?.relativeHumidity,
+        })}
+      </p>
+      <p>
+        {t("todaysConditionsCard.dewPoint", {
+          dewPoint: formattedGridpoint?.dewPoint,
+        })}
+      </p>
+      <p>
+        {t("todaysConditionsCard.wind", {
+          direction: formattedGridpoint?.windDirection,
+          speed: formattedGridpoint?.windSpeed,
+        })}
+      </p>
+      <p>
+        {t("todaysConditionsCard.visibility", {
+          visibility: formattedGridpoint?.visibility,
+        })}
+      </p>
     </Box>
   );
 };

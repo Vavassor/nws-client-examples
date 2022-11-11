@@ -1,13 +1,21 @@
-import { Box, Heading, Link, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Link,
+  ListItem,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getOfficeHeadlines } from "@vavassor/nws-client";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   officeId: string | undefined;
 }
 
-export const OfficeHeadlinesCard: FC<Props> = ({ officeId }) => {
+export const OfficeHeadlinesSection: FC<Props> = ({ officeId }) => {
   const { data: headlines } = useQuery(
     ["officeHeadlines", officeId],
     () => getOfficeHeadlines({ officeId: officeId! }),
@@ -15,11 +23,12 @@ export const OfficeHeadlinesCard: FC<Props> = ({ officeId }) => {
       enabled: !!officeId,
     }
   );
+  const { t } = useTranslation("offices");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
       <Heading as="h2" px={8} size="lg">
-        News Headlines
+        {t("officeHeadlinesSection.heading")}
       </Heading>
       {!!headlines && headlines["@graph"].length > 0 ? (
         <UnorderedList>
@@ -29,8 +38,8 @@ export const OfficeHeadlinesCard: FC<Props> = ({ officeId }) => {
             </ListItem>
           ))}
         </UnorderedList>
-      ): (
-        <Text px={8}>No news headlines.</Text>
+      ) : (
+        <Text px={8}>{t("officeHeadlinesSection.noHeadlinesMessage")}</Text>
       )}
     </Box>
   );

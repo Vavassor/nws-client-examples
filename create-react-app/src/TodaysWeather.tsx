@@ -2,8 +2,8 @@ import React from "react";
 import { Container, Grid, GridItem } from "@chakra-ui/react";
 import { SkipNavContent } from "@chakra-ui/skip-nav";
 import { CurrentConditions } from "./Forecast/CurrentConditions";
-import { WeatherAlerts } from "./Forecast/WeatherAlerts";
-import { TodaysConditions } from "./Forecast/TodaysConditions";
+import { WeatherAlertsCard } from "./Forecast/WeatherAlertsCard";
+import { TodaysConditionsCard } from "./Forecast/TodaysConditionsCard";
 import { LocalInformationCard } from "./Forecast/LocalInformationCard";
 
 export const TodaysWeather = () => {
@@ -23,10 +23,10 @@ export const TodaysWeather = () => {
           <CurrentConditions />
         </GridItem>
         <GridItem area="alerts">
-          <WeatherAlerts />
+          <WeatherAlertsCard />
         </GridItem>
         <GridItem area="todays">
-          <TodaysConditions />
+          <TodaysConditionsCard />
         </GridItem>
         <GridItem area="local">
           <LocalInformationCard />

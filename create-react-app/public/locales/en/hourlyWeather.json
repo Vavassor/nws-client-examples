@@ -1,0 +1,9 @@
+{
+  "hourlyWeatherSection": {
+    "heading": "Today's Forecast for {{city}}, {{state}}",
+    "shortForecastTableHeader": "Condition",
+    "temperatureTableHeader": "Temperature",
+    "timeTableHeader": "Time",
+    "windTableHeader": "Wind"
+  }
+}

@@ -3,6 +3,7 @@ import { SkipNavContent } from "@chakra-ui/skip-nav";
 import { useQuery } from "@tanstack/react-query";
 import { getProduct } from "@vavassor/nws-client";
 import { FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { saveTextFile } from "./Common/SaveFile";
 
@@ -15,6 +16,7 @@ export const ProductPage: FC = () => {
       enabled: !!productId,
     }
   );
+  const { t } = useTranslation("products");
 
   const handleClickCopy = () => {
     if (product?.productText) {
@@ -41,22 +43,33 @@ export const ProductPage: FC = () => {
             {product.productName}
           </Heading>
           <Text>
-            Issued by {product.issuingOffice} on{" "}
-            <time dateTime={product.issuanceTime}>
-              {new Intl.DateTimeFormat("en-US", {
-                dateStyle: "long",
-                timeStyle: "long",
-              }).format(new Date(product.issuanceTime))}
-            </time>
-            .
+            <Trans i18nKey="productPage.issuedByMessage" t={t}>
+              Issued by {{ issuingOffice: product.issuingOffice }} on{" "}
+              <time dateTime={product.issuanceTime}>
+                {
+                  {
+                    formatParams: {
+                      issuanceTime: {
+                        dateStyle: "long",
+                        timeStyle: "long",
+                      },
+                    },
+                    issuanceTime: new Date(product.issuanceTime),
+                  } as any
+                }
+              </time>
+              .
+            </Trans>
           </Text>
           <Box mt={8}>
-            <Button onClick={handleClickCopy}>Copy text</Button>
+            <Button onClick={handleClickCopy}>
+              {t("productPage.copyTextButtonLabel")}
+            </Button>
             <Button ms={2} onClick={handleClickDownload}>
-              Download
+              {t("productPage.downloadButtonLabel")}
             </Button>
             <Button ms={2} onClick={handleClickPrint}>
-              Print
+              {t("productPage.printButtonLabel")}
             </Button>
           </Box>
           <Text as="pre" mt={4} overflowX="auto">
