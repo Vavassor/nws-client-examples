@@ -1,14 +1,23 @@
-import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Link,
+  ListItem,
+  Text,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveAlertsGeoJson } from "@vavassor/nws-client";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentPosition } from "../Common/getCurrentPosition";
+import { Link as RouterLink } from "react-router-dom";
 
 interface Alert {
   description: string;
   eventName: string;
   headline: null | string | undefined;
+  id: string;
 }
 
 export const WeatherAlertsSection: FC = () => {
@@ -36,6 +45,7 @@ export const WeatherAlertsSection: FC = () => {
       description: feature.properties.description,
       eventName: feature.properties.event,
       headline: feature.properties.headline,
+      id: feature.properties.id,
     }));
 
     return result;
@@ -49,7 +59,14 @@ export const WeatherAlertsSection: FC = () => {
       {alerts && alerts.length > 0 ? (
         <UnorderedList>
           {alerts.map((alert) => (
-            <ListItem>{alert.headline || alert.eventName}</ListItem>
+            <ListItem>
+              <Link
+                as={RouterLink}
+                to={`alerts/${encodeURIComponent(alert.id)}`}
+              >
+                {alert.headline || alert.eventName}
+              </Link>
+            </ListItem>
           ))}
         </UnorderedList>
       ) : (

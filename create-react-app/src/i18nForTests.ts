@@ -1,9 +1,9 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import hourlyWeather from "../public/locales/en/hourlyWeather.json";
-import offices from "../public/locales/en/offices.json";
-import products from "../public/locales/en/products.json";
-import todaysWeather from "../public/locales/en/todaysWeather.json";
+import forecast from "../public/locales/en/forecast.json";
+import office from "../public/locales/en/office.json";
+import product from "../public/locales/en/product.json";
+import station from "../public/locales/en/station.json";
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -15,7 +15,7 @@ i18n.use(initReactI18next).init({
   lng: "en",
   ns: ["common"],
   resources: {
-    en: { hourlyWeather, offices, products, todaysWeather },
+    en: { forecast, office, product, station },
   },
 });
 

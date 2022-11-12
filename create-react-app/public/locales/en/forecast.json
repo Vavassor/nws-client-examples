@@ -1,4 +1,12 @@
 {
+  "alertSection": {
+    "actionRecommendedHeading": "Action recommended",
+    "affectedAreasHeading": "Affected areas",
+    "descriptionHeading": "Description",
+    "effectiveTimeRange": "Effective {{timeRange}}",
+    "issuedByHeading": "Issued by",
+    "summaryHeading": "Summary"
+  },
   "currentConditionsCard": {
     "heading": "{{city}}, {{state}} as of <5>{{updateTime}}</5>"
   },

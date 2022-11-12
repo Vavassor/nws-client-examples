@@ -16,7 +16,6 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
-import { usePoint } from "../Forecast/usePoint";
 
 export const ProductsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,20 +25,14 @@ export const ProductsSection = () => {
   );
   const { t } = useTranslation("product");
 
-  const { point } = usePoint();
-  const { data: products } = useQuery(
-    ["products"],
-    () =>
-      getProducts({
-        end: endTime,
-        limit: 25,
-        location: searchParams.getAll("location"),
-        office: searchParams.getAll("office"),
-        start: startTime,
-      }),
-    {
-      enabled: !!point,
-    }
+  const { data: products } = useQuery(["products"], () =>
+    getProducts({
+      end: endTime,
+      limit: 25,
+      location: searchParams.getAll("location"),
+      office: searchParams.getAll("office"),
+      start: startTime,
+    })
   );
 
   return (
