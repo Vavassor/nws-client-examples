@@ -59,6 +59,9 @@ export const MainLayout: FC = () => {
               <Link as={RouterLink} ms={4} to="/stations">
                 Stations
               </Link>
+              <Link as={RouterLink} ms={4} to="/glossary">
+                Glossary
+              </Link>
             </nav>
           </Stack>
         </Container>

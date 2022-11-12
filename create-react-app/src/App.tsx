@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AlertPage } from "./Forecast/AlertPage";
 import { HourlyWeatherPage } from "./Forecast/HourlyWeatherPage";
 import { TodaysWeatherPage } from "./Forecast/TodaysWeatherPage";
+import { GlossaryPage } from "./Glossary/GlossaryPage";
 import { MainLayout } from "./MainLayout";
 import { OfficePage } from "./Office/OfficePage";
 import { ProductPage } from "./Product/ProductPage";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         element: <AlertPage />,
         path: "alerts/:alertId",
+      },
+      {
+        element: <GlossaryPage />,
+        path: "glossary",
       },
       {
         element: <HourlyWeatherPage />,
