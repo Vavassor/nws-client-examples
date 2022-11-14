@@ -1,0 +1,9 @@
+{
+  "zonesSection": {
+    "heading": "Zones",
+    "idTableHeader": "ID",
+    "nameTableHeader": "Name",
+    "stateTableHeader": "State",
+    "typeTableHeader": "Type"
+  }
+}

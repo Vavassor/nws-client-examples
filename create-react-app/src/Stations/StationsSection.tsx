@@ -29,7 +29,7 @@ export const StationsSection = () => {
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
-      <Heading as="h2" px={8} size="lg">
+      <Heading as="h1" px={8} size="lg">
         {t("stationsSection.heading")}
       </Heading>
       {!!stations && (

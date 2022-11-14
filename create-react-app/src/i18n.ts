@@ -9,6 +9,7 @@ i18n
   .use(initReactI18next)
   .init({
     debug: true,
+    defaultNS: "common",
     fallbackLng: "en",
     interpolation: {
       escapeValue: false, // Not needed for react because it escapes by default.

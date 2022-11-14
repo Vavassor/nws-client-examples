@@ -12,18 +12,20 @@ import {
 } from "@chakra-ui/react";
 import { SkipNavLink } from "@chakra-ui/skip-nav";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink, Outlet } from "react-router-dom";
 
 export const MainLayout: FC = () => {
   const { getDisclosureProps, getButtonProps } = useDisclosure();
   const shouldShowMenu = useBreakpointValue({ base: true, lg: false });
+  const { t } = useTranslation();
 
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
   return (
     <>
-      <SkipNavLink>Skip to content</SkipNavLink>
+      <SkipNavLink>{t("mainHeader.skipLinkLabel")}</SkipNavLink>
       <Box
         as="header"
         backgroundColor="white"
@@ -38,29 +40,34 @@ export const MainLayout: FC = () => {
           >
             <HStack justifyContent="space-between">
               <Heading as="h2" fontSize="xl" me={4}>
-                Weather
+                {t("mainHeader.appName")}
               </Heading>
 
               <Hide above="lg">
-                <Button {...buttonProps}>Menu</Button>
+                <Button {...buttonProps}>
+                  {t("mainHeader.menuButtonLabel")}
+                </Button>
               </Hide>
             </HStack>
 
             <nav {...(shouldShowMenu ? disclosureProps : {})}>
               <Link as={RouterLink} to="/">
-                Today
+                {t("mainNavigation.todaysWeatherLink")}
               </Link>
               <Link as={RouterLink} ms={4} to="/hourly">
-                Hourly
+                {t("mainNavigation.hourlyWeatherLink")}
               </Link>
               <Link as={RouterLink} ms={4} to="/products">
-                Products
+                {t("mainNavigation.productsLink")}
               </Link>
               <Link as={RouterLink} ms={4} to="/stations">
-                Stations
+                {t("mainNavigation.stationsLink")}
+              </Link>
+              <Link as={RouterLink} ms={4} to="/zones">
+                {t("mainNavigation.zonesLink")}
               </Link>
               <Link as={RouterLink} ms={4} to="/glossary">
-                Glossary
+                {t("mainNavigation.glossaryLink")}
               </Link>
             </nav>
           </Stack>

@@ -11,6 +11,7 @@ import { OfficePage } from "./Office/OfficePage";
 import { ProductPage } from "./Product/ProductPage";
 import { ProductsPage } from "./Product/ProductsPage";
 import { StationsPage } from "./Stations/StationsPage";
+import { ZonesPage } from "./Zone/ZonesPage";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         element: <StationsPage />,
         path: "stations",
+      },
+      {
+        element: <ZonesPage />,
+        path: "zones",
       },
     ],
     element: <MainLayout />,
