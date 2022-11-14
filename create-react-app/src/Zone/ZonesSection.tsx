@@ -1,6 +1,7 @@
 import {
   Box,
   Heading,
+  Link,
   Table,
   TableContainer,
   Tbody,
@@ -10,13 +11,20 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { getZonesGeoJson } from "@vavassor/nws-client";
+import { getZonesGeoJson, ZoneType } from "@vavassor/nws-client";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 
 export const ZonesSection: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: zones } = useQuery(["zones"], () =>
-    getZonesGeoJson({ limit: 25 })
+    getZonesGeoJson({
+      area: searchParams.getAll("area"),
+      limit: 25,
+      region: searchParams.getAll("region"),
+      type: searchParams.getAll("type") as ZoneType[],
+    })
   );
   const { t } = useTranslation("zone");
 
@@ -38,7 +46,14 @@ export const ZonesSection: FC = () => {
           <Tbody>
             {zones?.features.map((zone) => (
               <Tr key={zone.properties.id}>
-                <Td>{zone.properties.name}</Td>
+                <Td>
+                  <Link
+                    as={RouterLink}
+                    to={`/zones/${zone.properties.type}/${zone.properties.id}`}
+                  >
+                    {zone.properties.name}
+                  </Link>
+                </Td>
                 <Td>{zone.properties.id}</Td>
                 <Td>{zone.properties.type}</Td>
                 <Td>{zone.properties.state}</Td>

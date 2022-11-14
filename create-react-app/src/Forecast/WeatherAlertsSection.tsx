@@ -56,7 +56,7 @@ export const WeatherAlertsSection: FC = () => {
       <Heading as="h2" size="lg">
         {t("weatherAlertsCard.heading")}
       </Heading>
-      {alerts && alerts.length > 0 ? (
+      {!!alerts && alerts.length > 0 ? (
         <UnorderedList>
           {alerts.map((alert) => (
             <ListItem>

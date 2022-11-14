@@ -59,5 +59,8 @@
   "packageManager": "yarn@3.2.4",
   "devDependencies": {
     "@types/file-saver": "^2.0.5"
+  },
+  "resolutions": {
+    "@vavassor/nws-client": "portal:/C:/Users/Coper/OneDrive/Documents/GitHub/nws-client/packages/nws-client"
   }
 }

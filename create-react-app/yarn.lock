@@ -4536,14 +4536,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vavassor/nws-client@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@vavassor/nws-client@npm:0.3.0"
+"@vavassor/nws-client@portal:/C:/Users/Coper/OneDrive/Documents/GitHub/nws-client/packages/nws-client::locator=create-react-app%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@vavassor/nws-client@portal:/C:/Users/Coper/OneDrive/Documents/GitHub/nws-client/packages/nws-client::locator=create-react-app%40workspace%3A."
   dependencies:
     cross-fetch: ^3.1.5
-  checksum: 21af1ccdca031a11d3c8d99720ca1fd15474963ffa22921eb3d13f5248ce4b41eea698b1d911931c8f01ce9b266ad3fc4735b73138f8201c7c92dd45ef2ec0d4
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@webassemblyjs/ast@npm:1.11.1":
   version: 1.11.1
