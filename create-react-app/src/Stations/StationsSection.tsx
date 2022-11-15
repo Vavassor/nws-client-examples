@@ -1,6 +1,7 @@
 import {
   Box,
   Heading,
+  Link,
   Table,
   TableContainer,
   Tbody,
@@ -13,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStationsGeoJson } from "@vavassor/nws-client";
 import { useTranslation } from "react-i18next";
 import { usePoint } from "../Forecast/usePoint";
+import { Link as RouterLink } from "react-router-dom";
 
 export const StationsSection = () => {
   const { state } = usePoint();
@@ -37,15 +39,22 @@ export const StationsSection = () => {
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>{t("stationsSection.idTableHeader")}</Th>
                 <Th>{t("stationsSection.nameTableHeader")}</Th>
+                <Th>{t("stationsSection.idTableHeader")}</Th>
               </Tr>
             </Thead>
             <Tbody>
               {stations?.features.map((station) => (
                 <Tr key={station.properties.stationIdentifier}>
+                  <Td>
+                    <Link
+                      as={RouterLink}
+                      to={`/stations/${station.properties.stationIdentifier}`}
+                    >
+                      {station.properties.name}
+                    </Link>
+                  </Td>
                   <Td>{station.properties.stationIdentifier}</Td>
-                  <Td>{station.properties.name}</Td>
                 </Tr>
               ))}
             </Tbody>

@@ -13,7 +13,7 @@ export const ZoneForecastSection: FC<ZoneForecastSectionProps> = ({
   type,
   zoneId,
 }) => {
-  const { t } = useTranslation("zone");
+  const { i18n, t } = useTranslation("zone");
   const { data: forecast } = useQuery(
     ["zoneForecast", type, zoneId],
     () => getZoneForecastJsonLd({ type: type! as any, zoneId: zoneId! }),
@@ -28,7 +28,7 @@ export const ZoneForecastSection: FC<ZoneForecastSectionProps> = ({
     }
 
     const updateTimeIso = forecast.updated;
-    const updateTime = new Intl.DateTimeFormat("en-US", {
+    const updateTime = new Intl.DateTimeFormat(i18n.language, {
       hour: "numeric",
       minute: "numeric",
       timeZoneName: "short",
@@ -42,7 +42,7 @@ export const ZoneForecastSection: FC<ZoneForecastSectionProps> = ({
       updateTime,
       updateTimeIso,
     };
-  }, [forecast]);
+  }, [forecast, i18n]);
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>

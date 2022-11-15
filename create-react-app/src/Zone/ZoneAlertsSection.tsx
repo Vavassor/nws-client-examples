@@ -35,7 +35,7 @@ export const ZoneAlertsSection: FC<ZoneAlertsSectionProps> = ({ zoneId }) => {
             <ListItem>
               <Link
                 as={RouterLink}
-                to={`alerts/${encodeURIComponent(alert.id)}`}
+                to={`/alerts/${encodeURIComponent(alert.id)}`}
               >
                 {alert.headline || alert.event}
               </Link>

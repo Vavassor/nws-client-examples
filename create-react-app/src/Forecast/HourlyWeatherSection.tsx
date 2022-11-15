@@ -43,13 +43,14 @@ const useHourlyForecast = () => {
       }),
     { enabled: !!point }
   );
+  const { i18n } = useTranslation();
 
   const days = useMemo(() => {
     if (!forecast) {
       return undefined;
     }
 
-    const dayFormat = new Intl.DateTimeFormat("en-US", {
+    const dayFormat = new Intl.DateTimeFormat(i18n.language, {
       weekday: "long",
     });
 
@@ -83,14 +84,14 @@ const useHourlyForecast = () => {
     }));
 
     return result;
-  }, [forecast]);
+  }, [forecast, i18n]);
 
   return { city, days, state };
 };
 
 export const HourlyWeatherSection: FC = () => {
   const { city, days, state } = useHourlyForecast();
-  const { t } = useTranslation("forecast");
+  const { i18n, t } = useTranslation("forecast");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" py={4}>
@@ -126,7 +127,7 @@ export const HourlyWeatherSection: FC = () => {
                       {day.periods.map((period) => (
                         <Tr key={period.startTime}>
                           <Td headers={`${dayId} time`}>
-                            {new Intl.DateTimeFormat("en-US", {
+                            {new Intl.DateTimeFormat(i18n.language, {
                               timeStyle: "short",
                             }).format(new Date(period.startTime))}
                           </Td>

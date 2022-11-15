@@ -1,4 +1,14 @@
 {
+  "recentObservationsSection": {
+    "forecastTableHeader": "Forecast",
+    "heading": "Recent observations",
+    "timeTableHeader": "Time"
+  },
+  "stationSection": {
+    "countyLink": "{{name}} county",
+    "fireWeatherZoneLink": "{{name}} fire weather zone",
+    "heading": "{{name}} station"
+  },
   "stationsSection": {
     "heading": "Stations",
     "idTableHeader": "ID",

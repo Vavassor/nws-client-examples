@@ -14,7 +14,7 @@ export const AlertSection: FC = () => {
       enabled: !!alertId,
     }
   );
-  const { t } = useTranslation("forecast");
+  const { i18n, t } = useTranslation("forecast");
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" px={8} py={4}>
@@ -25,7 +25,7 @@ export const AlertSection: FC = () => {
           </Heading>
           <Text>
             {t("alertSection.effectiveTimeRange", {
-              timeRange: new Intl.DateTimeFormat("en-US", {
+              timeRange: new Intl.DateTimeFormat(i18n.language, {
                 hour: "numeric",
                 timeZoneName: "short",
                 weekday: "short",

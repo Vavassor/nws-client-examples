@@ -10,6 +10,7 @@ import { MainLayout } from "./MainLayout";
 import { OfficePage } from "./Office/OfficePage";
 import { ProductPage } from "./Product/ProductPage";
 import { ProductsPage } from "./Product/ProductsPage";
+import { StationPage } from "./Stations/StationPage";
 import { StationsPage } from "./Stations/StationsPage";
 import { ZonePage } from "./Zone/ZonePage";
 import { ZonesPage } from "./Zone/ZonesPage";
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         element: <StationsPage />,
         path: "stations",
+      },
+      {
+        element: <StationPage />,
+        path: "stations/:stationId",
       },
       {
         element: <ZonesPage />,

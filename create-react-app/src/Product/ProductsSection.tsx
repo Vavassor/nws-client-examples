@@ -23,7 +23,7 @@ export const ProductsSection = () => {
   const [startTime, setStartTime] = useState(
     dayjs().startOf("day").toISOString()
   );
-  const { t } = useTranslation("product");
+  const { i18n, t } = useTranslation("product");
 
   const { data: products } = useQuery(["products"], () =>
     getProducts({
@@ -64,7 +64,7 @@ export const ProductsSection = () => {
                   </Link>
                 </Td>
                 <Td>
-                  {new Intl.DateTimeFormat("en-US", {
+                  {new Intl.DateTimeFormat(i18n.language, {
                     timeStyle: "short",
                   }).format(new Date(product.issuanceTime))}
                 </Td>

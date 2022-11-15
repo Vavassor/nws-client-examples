@@ -21,7 +21,7 @@ export const CurrentConditionsSection: FC = () => {
       }),
     { enabled: !!point }
   );
-  const { t } = useTranslation("forecast");
+  const { i18n, t } = useTranslation("forecast");
 
   const formattedForecast = useMemo(() => {
     if (!forecast) {
@@ -30,7 +30,7 @@ export const CurrentConditionsSection: FC = () => {
 
     const properties = forecast.properties;
 
-    const updateTime = new Intl.DateTimeFormat("en-US", {
+    const updateTime = new Intl.DateTimeFormat(i18n.language, {
       hour: "numeric",
       minute: "numeric",
       timeZoneName: "short",
@@ -49,7 +49,7 @@ export const CurrentConditionsSection: FC = () => {
       updateTime,
       updateTimeIso,
     };
-  }, [forecast]);
+  }, [forecast, i18n]);
 
   return (
     <Box as="section" borderRadius="lg" borderWidth="1px" px={8} py={4}>

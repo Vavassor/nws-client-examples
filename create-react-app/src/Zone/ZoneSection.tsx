@@ -45,7 +45,7 @@ export const ZoneSection: FC<ZoneSectionProps> = ({ type, zoneId }) => {
           {zone.forecastOffices.length > 0 && (
             <UnorderedList px={8}>
               {zone.cwa.map((office) => (
-                <ListItem>
+                <ListItem key={office}>
                   <Link as={RouterLink} to={`/offices/${office}`}>
                     {office}
                   </Link>
