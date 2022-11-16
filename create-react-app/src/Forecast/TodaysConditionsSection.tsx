@@ -1,18 +1,17 @@
 import { Box, Heading } from "@chakra-ui/react";
-import { UcumLhcUtils } from "@lhncbc/ucum-lhc";
 import { useQuery } from "@tanstack/react-query";
 import {
   getGridpointGeoJson,
   getQuantitativeValue,
-  getUcumCode,
   GridpointQuantitativeValueLayer,
-  QuantitativeValue,
 } from "@vavassor/nws-client";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  format,
+  get8WindCompassAbbreviation,
+} from "../Common/FormattingUtilities";
 import { usePoint } from "./usePoint";
-
-const utils = UcumLhcUtils.getInstance();
 
 export const TodaysConditionsSection: FC = () => {
   const { city, point, state } = usePoint();
@@ -40,42 +39,6 @@ export const TodaysConditionsSection: FC = () => {
       return currentValue && currentValue.value !== null && layer?.uom
         ? getQuantitativeValue(currentValue.value, layer?.uom)
         : undefined;
-    };
-
-    const format = (
-      value: QuantitativeValue | undefined,
-      toUnitCode: string
-    ) => {
-      if (value) {
-        const ucumCode = getUcumCode(value.unitCode);
-        if (ucumCode && value.value !== null) {
-          const convertedValue = utils.convertUnitTo(
-            ucumCode,
-            value.value,
-            toUnitCode
-          );
-          if (convertedValue.toVal) {
-            const formattedValue = convertedValue.toVal.toFixed(0);
-            const formattedUnit =
-              convertedValue.toUnit.getProperty("printSymbol");
-            return {
-              formattedText: `${formattedValue}${formattedUnit}`,
-              formattedValue,
-              value: convertedValue.toVal,
-            };
-          }
-        }
-      }
-      return { formattedText: "--", formattedValue: "--", value: undefined };
-    };
-
-    const get8WindCompassAbbreviation = (degrees: number | undefined) => {
-      if (!degrees) {
-        return undefined;
-      }
-      const index = Math.floor(degrees / 45) % 8;
-      const abbreviations = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-      return abbreviations[index];
     };
 
     const dewPoint = format(

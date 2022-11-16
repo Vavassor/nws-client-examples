@@ -7,6 +7,12 @@ declare module "@lhncbc/ucum-lhc" {
     toVal: number | null;
   }
 
+  interface SpecifiedUnitHash {
+    origString: string;
+    retMsg: string[];
+    unit: Unit;
+  }
+
   export class UcumLhcUtils {
     static getInstance(): UcumLhcUtils;
 
@@ -17,6 +23,12 @@ declare module "@lhncbc/ucum-lhc" {
       suggest?: boolean,
       molecularWeight?: number | null
     ): Hash;
+
+    getSpecifiedUnit(
+      uName: string,
+      valConv: "convert" | "validate",
+      suggest?: boolean
+    ): SpecifiedUnitHash;
   }
 
   class Unit {
