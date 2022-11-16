@@ -68,6 +68,5 @@ export const get8WindCompassAbbreviation = (degrees: number | undefined) => {
 
 export const getUnitPrintSymbol = (unitCode: string) => {
   const unit = utils.getSpecifiedUnit(unitCode, "validate");
-  console.log(unit);
   return unit.unit.getProperty("printSymbol");
 };

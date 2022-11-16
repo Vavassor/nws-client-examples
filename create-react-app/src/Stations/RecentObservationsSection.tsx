@@ -111,7 +111,7 @@ export const RecentObservationsSection: FC<RecentObservationsSectionProps> = ({
           units.temperature
         ).formattedValue,
         seaLevelPressure: format(observation.relativeHumidity, "mbar")
-          .formattedText,
+          .formattedValue,
         skyCondition: observation.presentWeather,
         temperature: format(observation.temperature, units.temperature)
           .formattedValue,
