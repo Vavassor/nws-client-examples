@@ -4,6 +4,7 @@ import forecast from "../public/locales/en/forecast.json";
 import glossary from "../public/locales/en/glossary.json";
 import office from "../public/locales/en/office.json";
 import product from "../public/locales/en/product.json";
+import radar from "../public/locales/en/radar.json";
 import station from "../public/locales/en/station.json";
 
 i18n.use(initReactI18next).init({
@@ -16,7 +17,7 @@ i18n.use(initReactI18next).init({
   lng: "en",
   ns: ["common"],
   resources: {
-    en: { forecast, glossary, office, product, station },
+    en: { forecast, glossary, office, product, radar, station },
   },
 });
 

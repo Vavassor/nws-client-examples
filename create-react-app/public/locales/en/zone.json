@@ -8,6 +8,7 @@
   },
   "zoneSection": {
     "forecastOfficesHeading": "Forecast offices",
+    "radarStationLink": "Radar station {{radarStationId}}",
     "zoneId": "Zone ID: {{id}}"
   },
   "zonesSection": {

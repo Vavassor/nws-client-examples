@@ -39,6 +39,19 @@ export const ZoneSection: FC<ZoneSectionProps> = ({ type, zoneId }) => {
           <Text px={8}>
             {getStateOrTerritoryNameByAbbreviation(zone.state)}
           </Text>
+          {!!zone.radarStation && (
+            <Link
+              as={RouterLink}
+              px={8}
+              // @TODO Fix radar station links for IDs that don't start with
+              // the "K" prefix. Research what these prefixes mean.
+              to={`/radarStations/K${zone.radarStation}`}
+            >
+              {t("zoneSection.radarStationLink", {
+                radarStationId: zone.radarStation,
+              })}
+            </Link>
+          )}
           <Heading as="h2" mt={4} px={8} size="md">
             {t("zoneSection.forecastOfficesHeading")}
           </Heading>

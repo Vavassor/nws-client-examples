@@ -10,6 +10,7 @@ import { MainLayout } from "./MainLayout";
 import { OfficePage } from "./Office/OfficePage";
 import { ProductPage } from "./Product/ProductPage";
 import { ProductsPage } from "./Product/ProductsPage";
+import { RadarStationPage } from "./Radar/RadarStationPage";
 import { StationPage } from "./Stations/StationPage";
 import { StationsPage } from "./Stations/StationsPage";
 import { ZonePage } from "./Zone/ZonePage";
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         element: <ProductPage />,
         path: "products/:productId",
+      },
+      {
+        element: <RadarStationPage />,
+        path: "radarStations/:stationId",
       },
       {
         element: <StationsPage />,
